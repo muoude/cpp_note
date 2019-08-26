@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int len=height.size();
+        int begin=0;
+        int end=len-1;
+        int max_v=0;
+        while(begin<end){
+            int kuandu=min(height[begin],height[end]);
+            int changdu=end-begin;
+            int v=kuandu*changdu;
+            max_v=max(max_v,v);
+            if(height[begin]<height[end])
+                ++begin;
+            else
+                --end;
+        }
+        return max_v;
+    }
+};
+//双指针，两端进行移动，面积取决于高度较矮的一边
+ //当指针指向的高度较高时，若向中间移动必然会使容器的容量变小，而移动指向高度较矮的指针，可能会使面积变大也可能使其变小，因此选择移动指向较小一边的指针
