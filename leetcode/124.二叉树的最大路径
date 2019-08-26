@@ -1,0 +1,23 @@
+class Solution {
+public:   
+    int max_pathsum(TreeNode* root,int &max_sum){
+        //max_sum前面必须加引用
+        if(root==NULL)
+             return 0;
+        int left_max=max(max_pathsum(root->left,max_sum),0); //取左子树大于0的值
+        int right_max=max(max_pathsum(root->right,max_sum),0);
+        int ret=root->val+left_max+right_max;//第一种情况左子树、右子树和父节点的和
+        max_sum=max(max_sum,ret);//判断最大值
+        return root->val+max(left_max,right_max);//第二种情况或者第三种情况
+    }
+    int maxPathSum(TreeNode* root) {
+        int max_sum=INT_MIN;
+        max_pathsum(root,max_sum);
+         return max_sum;
+    }
+};
+
+/*
+   使用递归，a为父节点，b为左子树，c为右子树
+   最大的值有三种情况：a+b+c,a+b然后继续向上遍历，a+c继续向上遍历
+*/
