@@ -6,6 +6,51 @@ num 一个整数，表示员工的人数
 salaries 一个正整数列表，表示N名员工的工资
 */
 
+1、稳定的排序方法，将排好序的工资和对应的编号稳定排序
+#include "stdafx.h"
+#include<iostream>
+#include<vector>
+#include<unordered_map>
+#include<algorithm>
+using namespace std;
+
+//定义降序排列
+bool cmd(pair<int,int> a, pair<int,int> b){
+	return a.second > b.second;
+}
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+	int num;
+	while (cin >> num){
+		unordered_map<int, int>  val;//用map存放工资以及其对应的频次
+		vector<pair<int, int> > res;
+		int valary;
+		for (int i = 0; i < num; ++i){
+			cin >> valary;
+			if (val.find(valary) == val.end()){
+				val[valary] = 1;
+				res.push_back(pair<int, int>(valary, 1));//利用vector的时候先出现先存入，然后按照稳定排序不会破坏其位置
+			}
+			else{
+				++val[valary];
+				for (auto &money : res){
+					if (money.first == valary)
+						++money.second;
+				}
+				//改变其中的值的时候要使用引用
+			}
+		}
+		stable_sort(res.begin(), res.end(), cmd);//记住这个排序的指令，降序还是升序可以自己进行定义
+		for (auto people : res){
+			for (int j = 0; j < people.second; ++j){
+				cout << people.first << " ";
+			}
+		}
+	}
+	return 0;
+}
+2、这种方法不能保证相同频次的先出现的工资会先输出，不是稳定的排序方法
 #include "stdafx.h"
 #include<iostream>
 #include<map>
